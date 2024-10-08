@@ -2,7 +2,27 @@
 #include <stdlib.h>
 #include <string.h>
 
+void SalvarCaso(const char *nome, const char *historia) {
+
+    FILE *arquivo = fopen(nome, "wb");
+    fwrite(historia, sizeof(char), strlen(historia), arquivo);
+    fclose(arquivo);
+
+}
+
+
+
+
 int main(void) {
+
+    char historia[] = "Na tradicional festa de Natal da Família Müller, todos estão reunidos na grandiosa mansão para celebrar.\n"
+                      "Durante a noite, o anfitrião, Hans Müller, decide buscar uma garrafa de whiskey especial guardada em um local isolado, próximo à despensa.\n"
+                      "Quando chega a hora do amigo secreto, percebem que Hans ainda não voltou.\n"
+                      "A busca por ele leva os convidados a uma cena de horror: Hans foi encontrado morto no chão do depósito,\n"
+                      "com o whiskey derramado ao seu lado e a garrafa quebrada em mil pedaços.";
+                      
+    SalvarCaso("caso.bin", historia);
+
     char nome[50];
     char resposta;
 
