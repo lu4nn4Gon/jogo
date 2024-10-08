@@ -22,7 +22,7 @@ int main(void) {
                       "A busca por ele leva os convidados a uma cena de horror: Hans foi encontrado morto no chão do depósito,\n"
                       "com o whiskey derramado ao seu lado e a garrafa quebrada em mil pedaços.";
                       
-    SalvarCaso("caso.bin", historia);
+    SalvarCaso("historia.bin", historia);
 
     char nome[50];
     char resposta;
