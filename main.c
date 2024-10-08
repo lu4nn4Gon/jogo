@@ -3,12 +3,30 @@
 #include <string.h>
 
 //função para salvar o caso em um arquivo bínario
-void SalvarCaso(const char *nome, const char *historia) {
+void SalvarCaso(char *nome,char *historia) {
 
     FILE *arquivo = fopen(nome, "wb");
     fwrite(historia, sizeof(char), strlen(historia), arquivo);
     fclose(arquivo);
 
+}
+
+void LerCaso(char *nome) {
+    char historia[1000];  
+    int caracteres_lidos = 0;  
+
+    FILE *arquivo = fopen(nome, "rb");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo para leitura!\n");
+        return;
+    }
+
+    caracteres_lidos = fread(historia, sizeof(char), 999, arquivo); 
+    historia[caracteres_lidos] = '\0';
+
+    printf("\nCaso:\n%s\n", historia);
+
+    fclose(arquivo);
 }
 
 
@@ -43,7 +61,8 @@ int main(void) {
         printf("Tem um caso novo, deseja investigar: (S/N) \n");
         scanf("%c", &resposta);
         if (resposta == 'S' || resposta == 's'){
-            printf("caso aceito \n");
+             LerCaso("caso.bin");
+             printf("\n");
         } else if (resposta == 'N' || resposta == 'n'){
             printf("caso recusado \n");
         } else {
