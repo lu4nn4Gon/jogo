@@ -40,7 +40,7 @@ int main(void) {
                       "A busca por ele leva os convidados a uma cena de horror: Hans foi encontrado morto no chão do depósito,\n"
                       "com o whiskey derramado ao seu lado e a garrafa quebrada em mil pedaços.";
                       
-    SalvarCaso("caso.bin", historia);
+    SalvarCaso("historia.bin", historia);
 
     char nome[50];
     char resposta;
@@ -61,7 +61,7 @@ int main(void) {
         printf("Tem um caso novo, deseja investigar: (S/N) \n");
         scanf("%c", &resposta);
         if (resposta == 'S' || resposta == 's'){
-             LerCaso("caso.bin");
+             LerCaso("historia.bin");
              printf("\n");
         } else if (resposta == 'N' || resposta == 'n'){
             printf("caso recusado \n");
