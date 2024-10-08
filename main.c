@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+//função para salvar o caso em um arquivo bínario
 void SalvarCaso(const char *nome, const char *historia) {
 
     FILE *arquivo = fopen(nome, "wb");
