@@ -4,6 +4,7 @@
 
 int main(void) {
     char nome[50];
+    char resposta;
 
     //entrada
     printf("Digite seu nome: ");
@@ -17,8 +18,16 @@ int main(void) {
 
     //verifica se o nome é vazio ou não
     if (strlen(nome) > 0) {
-        printf("Seu nome é: %s\n", nome);
-        printf("Que comecem os jogos!!!!!!!\n");
+        printf("Bem-vindo Detetive %s\n", nome);
+        printf("Tem um caso novo, deseja investigar: (S/N) \n");
+        scanf("%c", &resposta);
+        if (resposta == 'S' || resposta == 's'){
+            printf("caso aceito \n");
+        } else if (resposta == 'N' || resposta == 'n'){
+            printf("caso recusado");
+        } else {
+            printf("Resposta inválida");
+        }
     } else {
         printf("Nome não pode ser vazio!\n");
     }
