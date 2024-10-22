@@ -29,6 +29,21 @@ void LerCaso(char *nome) {
     fclose(arquivo);
 }
 
+void LerArquivo(char *nome) {
+    char linha[1000];  
+
+    FILE *arquivo = fopen(nome, "r");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo para leitura!\n");
+        return;
+    }
+
+    while (fgets(linha, sizeof(linha), arquivo) != NULL) {
+        printf("%s", linha);  
+    }
+
+    fclose(arquivo);
+}
 
 
 int main(void) {
@@ -77,7 +92,8 @@ int main(void) {
                         printf("\n");
                         break;
                     case 2:
-                        printf("investigando....\n");
+                       LerArquivo("pistas/cozinha_pista1.txt");
+                       printf("\n");
                         break;
                     case 3:
                         printf("interrogar....\n");
