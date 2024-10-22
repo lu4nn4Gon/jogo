@@ -61,7 +61,43 @@ int main(void) {
         printf("Tem um caso novo, deseja investigar: (S/N) \n");
         scanf("%c", &resposta);
         if (resposta == 'S' || resposta == 's'){
-             LerCaso("historia.bin");
+            //  LerCaso("historia.bin");
+            int opcao = 1;
+            while (opcao != 0){
+                printf("\t1 - Ler o arquivo do caso\n");
+                printf("\t2 - Investigar cena do crime\n");
+                printf("\t3 - Interrogar testemunhas\n");
+                printf("\t4 - Verificar Evidências\n");
+                printf("\t5 - Acusar\n");
+                printf("\t0 - Sair\n");
+                printf("\nO que deseja fazer agora, Detetive %s\n", nome);
+                scanf("%d", &opcao);
+
+                switch (opcao) {
+                    case 1:
+                        printf("lendo arquivo...\n");
+                        break;
+                    case 2:
+                        printf("investigando....\n");
+                        break;
+                    case 3:
+                        printf("interrogar....\n");
+                        break;
+                    case 4:
+                        printf("verificar...\n");
+                        break;
+                    case 5:
+                        printf("acuse alguem....\n");
+                        break;
+                     case 0:
+                        printf("Saindo...\n");
+                        break;
+                     default:
+                         printf("Opção inválida\n");
+                         break;
+
+                }
+            }
              printf("\n");
         } else if (resposta == 'N' || resposta == 'n'){
             printf("caso recusado \n");
@@ -71,6 +107,8 @@ int main(void) {
     } else {
         printf("Nome não pode ser vazio!\n");
     }
+
+
 
 
 
