@@ -31,7 +31,6 @@ void LerCaso(char *nome) {
 
 
 
-
 int main(void) {
 
     char historia[] = "Na tradicional festa de Natal da Família Müller, todos estão reunidos na grandiosa mansão para celebrar.\n"
@@ -61,7 +60,6 @@ int main(void) {
         printf("Tem um caso novo, deseja investigar: (S/N) \n");
         scanf("%c", &resposta);
         if (resposta == 'S' || resposta == 's'){
-            //  LerCaso("historia.bin");
             int opcao = 1;
             while (opcao != 0){
                 printf("\t1 - Ler o arquivo do caso\n");
@@ -75,7 +73,8 @@ int main(void) {
 
                 switch (opcao) {
                     case 1:
-                        printf("lendo arquivo...\n");
+                        LerCaso("historia.bin");
+                        printf("\n");
                         break;
                     case 2:
                         printf("investigando....\n");
