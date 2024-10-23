@@ -168,6 +168,24 @@ void CriarArquivosBinarios() {
     fclose(file);
 }
 
+void LerDialogo(char *arquivo, int perguntaEscolhida) {
+    FILE *file = fopen(arquivo, "rb");
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo %s\n", arquivo);
+        return;
+    }
+
+    fseek(file, (perguntaEscolhida - 1) * sizeof(char) * 300, SEEK_SET);
+
+    char resposta[300];
+    fread(resposta, sizeof(char), 300, file);
+
+    printf("Resposta: %s\n\n", resposta);
+
+    fclose(file);
+}
+
+
 int main(void) {
 
     char historia[] = "Na tradicional festa de Natal da Família Müller, todos estão reunidos na grandiosa mansão para celebrar.\n"
@@ -217,7 +235,14 @@ int main(void) {
                         printf("\n");
                         break;
                     case 3:
-                        CriarArquivosBinarios();
+                        printf("Testando a leitura do diálogo da esposa (pergunta 1):\n");
+                        LerDialogo("dialogos/dialogos_esposa.bin", 1);
+
+                        printf("Testando a leitura do diálogo da filha (pergunta 2):\n");
+                        LerDialogo("dialogos/dialogos_filha.bin", 2);
+
+                        printf("Testando a leitura do diálogo do irmão da vítima (pergunta 3):\n");
+                        LerDialogo("dialogos/dialogos_irmao.bin", 3);
                         break;
                     case 4:
                         printf("verificar...\n");
