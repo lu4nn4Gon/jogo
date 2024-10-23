@@ -45,6 +45,65 @@ void LerArquivo(char *nome) {
     fclose(arquivo);
 }
 
+void Pistas() {
+    char comodo[20];
+    char pista;
+    
+    while (1) {
+        printf("\nDigite o cômodo que deseja investigar (cozinha, garagem, deposito) ou 'sair' para encerrar: ");
+        scanf("%s", comodo);
+
+        if (strcmp(comodo, "sair") == 0) {
+            printf("Saindo da investigação...\n");
+            break;
+        }
+
+        if (strcmp(comodo, "cozinha") == 0) {
+            printf("\n- Digite p para descobrir a primeira pista\n");
+            printf("- Digite s para descobrir a segunda pista\n");
+            printf("Escolha: ");
+            scanf(" %c", &pista); 
+            if (pista == 'p' || pista == 'P') {
+                printf("\nPista encontrada: ");
+                LerArquivo("pistas/cozinha_pista1.txt");
+                printf("\n");
+            } else if (pista == 's' || pista == 'S') {
+                printf("\nPista encontrada: ");
+                LerArquivo("pistas/cozinha_pista2.txt");
+                printf("\n");
+            } else {
+                printf("\nPista não encontrada\n");
+            }
+        } else if (strcmp(comodo, "garagem") == 0) {
+            printf("\nPista encontrada: ");
+            LerArquivo("pistas/garagem_pista1.txt");
+            printf("\n");
+        } else if (strcmp(comodo, "deposito") == 0) {
+            printf("\n- Digite p para descobrir a primeira pista\n");
+            printf("- Digite s para descobrir a segunda pista\n");
+            printf("- Digite t para descobrir a terceira pista\n");
+            printf("Escolha: ");
+            scanf(" %c", &pista);  
+            if (pista == 'p' || pista == 'P') {
+                printf("\nPista encontrada: ");
+                LerArquivo("pistas/deposito_pista1.txt");
+                printf("\n");
+            } else if (pista == 's' || pista == 'S') {
+                printf("\nPista encontrada: ");
+                LerArquivo("pistas/deposito_pista2.txt");
+                printf("\n");
+            } else if (pista == 't' || pista == 'T') {
+                printf("\nPista encontrada: ");
+                LerArquivo("pistas/deposito_pista3.txt");
+                printf("\n");
+            } else {
+                printf("\nPista não encontrada\n");
+            }
+        } else {
+            printf("Cômodo não reconhecido. Tente novamente.\n");
+        }
+    }
+}
 
 int main(void) {
 
@@ -59,32 +118,31 @@ int main(void) {
     char nome[50];
     char resposta;
 
-    //entrada
     printf("Digite seu nome: ");
     fgets(nome, 50, stdin); 
 
-    //tira o espaço
     int tamanho = strlen(nome);
     if (nome[tamanho - 1] == '\n') {
         nome[tamanho - 1] = '\0';
     }
 
-    //verifica se o nome é vazio ou não
+
     if (strlen(nome) > 0) {
-        printf("Bem-vindo Detetive %s\n", nome);
-        printf("Tem um caso novo, deseja investigar: (S/N) \n");
+        printf("\nBem-vindo Detetive %s,", nome);
+        printf(" você um caso novo, deseja investigar? (S/N) ");
         scanf("%c", &resposta);
         if (resposta == 'S' || resposta == 's'){
             int opcao = 1;
             while (opcao != 0){
-                printf("\t1 - Ler o arquivo do caso\n");
+                printf("\n\t1 - Ler o arquivo do caso\n");
                 printf("\t2 - Investigar cena do crime\n");
                 printf("\t3 - Interrogar testemunhas\n");
                 printf("\t4 - Verificar Evidências\n");
                 printf("\t5 - Acusar\n");
                 printf("\t0 - Sair\n");
-                printf("\nO que deseja fazer agora, Detetive %s\n", nome);
-                scanf("%d", &opcao);
+                printf("\nO que deseja fazer agora, Detetive %s? ", nome);
+                scanf(" %d", &opcao);
+
 
                 switch (opcao) {
                     case 1:
@@ -92,8 +150,8 @@ int main(void) {
                         printf("\n");
                         break;
                     case 2:
-                       LerArquivo("pistas/cozinha_pista1.txt");
-                       printf("\n");
+                        Pistas();
+                        printf("\n");
                         break;
                     case 3:
                         printf("interrogar....\n");
