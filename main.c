@@ -1,6 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>   
+#include <unistd.h>  
+
+typedef struct {
+    char nome[30];        
+    char perguntas[3][100]; 
+    char arquivo[30];    
+} Testemunha;
+
+// Função para criar a pasta "dialogos"
+void CriarPastaDialogos() {
+    struct stat st = {0}; 
+
+    if (stat("dialogos", &st) == -1) {
+        mkdir("dialogos", 0700); 
+    }
+}
 
 //função para salvar o caso em um arquivo bínario
 void SalvarCaso(char *nome,char *historia) {
@@ -105,6 +122,52 @@ void Pistas() {
     }
 }
 
+void CriarArquivosBinarios() {
+    CriarPastaDialogos();  
+
+    // Esposa
+    FILE *file = fopen("dialogos/dialogos_esposa.bin", "wb");
+    if (file == NULL) {
+        printf("Erro ao criar o arquivo binário para a esposa.\n");
+        return;
+    }
+    char respostasEsposa[3][300] = {
+        "Me cortei enquanto preparava o jantar. Estava distraída, pensando em como a festa poderia ser perfeita. Eu... nunca faria isso com meu marido!",
+        "Estava sozinha arrumando os presentes, que os convidados haviam trazido, embaixo da árvore.",
+        "Não sei, meu marido não deixava ninguém mexer na caixa de ferramentas."
+    };
+    fwrite(respostasEsposa, sizeof(respostasEsposa), 1, file);
+    fclose(file);
+
+    // Filha
+    file = fopen("dialogos/dialogos_filha.bin", "wb");
+    if (file == NULL) {
+        printf("Erro ao criar o arquivo binário para a filha.\n");
+        return;
+    }
+    char respostasFilha[3][300] = {
+        "Ultimamente, sim. Minha mãe descobriu uma traição... foi devastador para ela. Eles estavam sempre discutindo.",
+        "Eu estava no meu quarto, ouvindo música alta e fumando. As brigas dos meus pais me deixaram nervosa.",
+        "Roupa?… eu nunca usei a máquina, para isso temos empregados."
+    };
+    fwrite(respostasFilha, sizeof(respostasFilha), 1, file);
+    fclose(file);
+
+    // Irmão da Vítima
+    file = fopen("dialogos/dialogos_irmao.bin", "wb");
+    if (file == NULL) {
+        printf("Erro ao criar o arquivo binário para o irmão da vítima.\n");
+        return;
+    }
+    char respostasIrmao[3][300] = {
+        "Porque ele estava demorando com a bebida que eu pedi.",
+        "Colocando presentes embaixo da árvore.",
+        "Com a minha sobrinha, ele não aprovava o seu namoro e isso causava várias brigas."
+    };
+    fwrite(respostasIrmao, sizeof(respostasIrmao), 1, file);
+    fclose(file);
+}
+
 int main(void) {
 
     char historia[] = "Na tradicional festa de Natal da Família Müller, todos estão reunidos na grandiosa mansão para celebrar.\n"
@@ -154,7 +217,7 @@ int main(void) {
                         printf("\n");
                         break;
                     case 3:
-                        printf("interrogar....\n");
+                        CriarArquivosBinarios();
                         break;
                     case 4:
                         printf("verificar...\n");
