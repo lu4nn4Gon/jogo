@@ -15,6 +15,11 @@ typedef struct {
     char descricao[200];
 } Evidencia;
 
+typedef struct {
+    char nome[50];
+    int culpado;  
+} Suspeito;
+
 // Função para criar a pasta "dialogos"
 void CriarPastaDialogos() {
     struct stat st = {0}; 
@@ -259,12 +264,44 @@ void Evidencias(Evidencia *evidencias, int numEvidencias) {
     printf("Descrição: %s\n", evidencia->descricao);
 }
 
+void AcusarSuspeito(Suspeito *suspeitos, int numSuspeitos) {
+    int opcaoSuspeito;
+    int evidenciasCorretas = 1;  
+
+    printf("\nEscolha o suspeito para acusar:\n");
+    for (int i = 0; i < numSuspeitos; i++) {
+        printf("%d - %s\n", i + 1, suspeitos[i].nome);
+    }
+
+    printf("Escolha: ");
+    scanf("%d", &opcaoSuspeito);
+    getchar(); 
+
+    if (opcaoSuspeito < 1 || opcaoSuspeito > numSuspeitos) {
+        printf("Opção inválida!\n");
+        return;
+    }
+
+
+    Suspeito *suspeitoEscolhido = &suspeitos[opcaoSuspeito - 1];
+
+
+    if (suspeitoEscolhido->culpado == 1 && evidenciasCorretas) {
+        printf("\nParabéns! Você acusou corretamente %s.\n", suspeitoEscolhido->nome);
+        printf("História resolvida: O irmão, enfurecido, atacou Hans Müller com um martelo e tentou encobrir o crime.\n");
+        printf("Ele transferiu o dinheiro e tentou limpar as evidências na máquina de lavar.\n");
+    } else {
+        printf("\nVocê acusou %s, mas esta não é a pessoa culpada.\n", suspeitoEscolhido->nome);
+        printf("O verdadeiro culpado ainda está à solta.\n");
+    }
+}
+
 
 int main(void) {
 
         Testemunha testemunhas[3] = {
         {
-            "Esposa",
+            "Esposa - Olga Müller",
             {
                 "Por que tem uma faca com seu sangue na cozinha?",
                 "Onde você estava quando seu marido foi pegar a bebida?",
@@ -273,7 +310,7 @@ int main(void) {
             "dialogos/dialogos_esposa.bin"
         },
         {
-            "Filha",
+            "Filha - Sofie Müller",
             {
                 "Seus pais brigavam muito?",
                 "O que você estava fazendo antes de se reunir para a troca de presentes?",
@@ -282,7 +319,7 @@ int main(void) {
             "dialogos/dialogos_filha.bin"
         },
         {
-            "Irmão da Vítima",
+            "Irmão - Erik Müller",
             {
                 "Por que você ligou várias vezes para o seu irmão?",
                 "O que vocês estavam fazendo antes dele ir pegar a bebida?",
@@ -301,6 +338,14 @@ int main(void) {
     };
 
     int numEvidenciasCarregadas = 5;
+
+        Suspeito suspeitos[] = {
+        {"Erik Müller, o irmão", 1},  
+        {"Sofie Müller, a filha", 0},
+        {"Olga Müller, a esposa", 0}
+    };
+
+    int numSuspeitos = sizeof(suspeitos) / sizeof(suspeitos[0]);
 
     char historia[] = "Na tradicional festa de Natal da Família Müller, todos estão reunidos na grandiosa mansão para celebrar.\n"
                       "Durante a noite, o anfitrião, Hans Müller, decide buscar uma garrafa de whiskey especial guardada em um local isolado, próximo à despensa.\n"
@@ -357,7 +402,7 @@ int main(void) {
                         printf("\n");
                         break;
                     case 5:
-                        printf("acuse alguem....\n");
+                        AcusarSuspeito(suspeitos, numSuspeitos);
                         break;
                      case 0:
                         printf("Saindo...\n");
