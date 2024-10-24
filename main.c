@@ -10,6 +10,11 @@ typedef struct {
     char arquivo[30];    
 } Testemunha;
 
+typedef struct {
+    char nome[50];
+    char descricao[200];
+} Evidencia;
+
 // Função para criar a pasta "dialogos"
 void CriarPastaDialogos() {
     struct stat st = {0}; 
@@ -66,7 +71,7 @@ void LerArquivo(char *nome) {
 void Pistas() {
     char comodo[20];
     char pista;
-    
+
     while (1) {
         printf("\nDigite o cômodo que deseja investigar (cozinha, garagem, deposito) ou 'sair' para encerrar: ");
         scanf("%s", comodo);
@@ -93,9 +98,19 @@ void Pistas() {
                 printf("\nPista não encontrada\n");
             }
         } else if (strcmp(comodo, "garagem") == 0) {
-            printf("\nPista encontrada: ");
-            LerArquivo("pistas/garagem_pista1.txt");
-            printf("\n");
+            printf("\n- Digite p para descobrir a primeira pista\n");
+            printf("- Digite s para descobrir a segunda pista\n");
+            printf("Escolha: ");
+            scanf(" %c", &pista);  
+            if (pista == 'p' || pista == 'P') {
+                printf("\nPista encontrada: ");
+                LerArquivo("pistas/garagem_pista1.txt");
+                printf("\n");
+            } else if (pista == 's' || pista == 'S') {
+                printf("\nPista encontrada: ");
+                LerArquivo("pistas/garagem_pista2.txt");
+                printf("\n");
+            } 
         } else if (strcmp(comodo, "deposito") == 0) {
             printf("\n- Digite p para descobrir a primeira pista\n");
             printf("- Digite s para descobrir a segunda pista\n");
@@ -222,6 +237,28 @@ void InterrogarTestemunha(Testemunha *testemunhas, int numTestemunhas) {
     LerDialogo(testemunha->arquivo, opcaoPergunta);
 }
 
+void Evidencias(Evidencia *evidencias, int numEvidencias) {
+    int opcaoEvidencia;
+
+    printf("\nEscolha a evidência para examinar:\n");
+    for (int i = 0; i < numEvidencias; i++) {
+        printf("%d - %s\n", i + 1, evidencias[i].nome);
+    }
+
+    printf("Escolha: ");
+    scanf("%d", &opcaoEvidencia);
+    getchar();  // Limpa o buffer
+
+    if (opcaoEvidencia < 1 || opcaoEvidencia > numEvidencias) {
+        printf("Opção inválida!\n");
+        return;
+    }
+
+    Evidencia *evidencia = &evidencias[opcaoEvidencia - 1];
+    printf("\nVocê escolheu: %s\n", evidencia->nome);
+    printf("Descrição: %s\n", evidencia->descricao);
+}
+
 
 int main(void) {
 
@@ -254,6 +291,16 @@ int main(void) {
             "dialogos/dialogos_irmao.bin"
         }
     };
+
+       Evidencia evidenciasArray[5] = {
+        {"Celular Notificação", "O celular da vítima contém notificações do banco sobre transações feitas para uma conta fantasma"},
+        {"Celular Ligação", "O celular da vítima possuia muitas ligações entre ele e o irmão nos últimos dias"},
+        {"Faca", "A faca encontrada contém o sangue da esposa da vítima"},
+        {"Cigarro", "Um cigarro apagado proximo ao local da morte"},
+        {"Camisa", "Uma camisa que pertence a filha foi encontrada na lavadora com sangue"}
+    };
+
+    int numEvidenciasCarregadas = 5;
 
     char historia[] = "Na tradicional festa de Natal da Família Müller, todos estão reunidos na grandiosa mansão para celebrar.\n"
                       "Durante a noite, o anfitrião, Hans Müller, decide buscar uma garrafa de whiskey especial guardada em um local isolado, próximo à despensa.\n"
@@ -306,7 +353,8 @@ int main(void) {
                         InterrogarTestemunha(testemunhas, 3);
                         break;
                     case 4:
-                        printf("verificar...\n");
+                        Evidencias(evidenciasArray, numEvidenciasCarregadas);
+                        printf("\n");
                         break;
                     case 5:
                         printf("acuse alguem....\n");
