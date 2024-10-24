@@ -66,12 +66,16 @@ void LerArquivo(char *nome) {
         return;
     }
 
+  
+    printf("\033[0;31m");  
     while (fgets(linha, sizeof(linha), arquivo) != NULL) {
         printf("%s", linha);  
     }
+    printf("\033[0m");    
 
     fclose(arquivo);
 }
+
 
 void Pistas() {
     char comodo[20];
@@ -201,10 +205,14 @@ void LerDialogo(char *arquivo, int perguntaEscolhida) {
     char resposta[300];
     fread(resposta, sizeof(char), 300, file);
 
+  
+    printf("\033[0;31m");  
     printf("Resposta: %s\n\n", resposta);
+    printf("\033[0m");     
 
     fclose(file);
 }
+
 
 void InterrogarTestemunha(Testemunha *testemunhas, int numTestemunhas) {
     char nomeTestemunha[30];
@@ -305,16 +313,21 @@ void Evidencias(Evidencia *evidencias, int numEvidencias) {
         }
 
         Evidencia *evidencia = &evidencias[evidenciaEncontrada];
+
+        
+        printf("\033[0;31m");  
         printf("\nVocê escolheu: %s\n", evidencia->nome);
         printf("Descrição: %s\n", evidencia->descricao);
+        printf("\033[0m");    
     }
 }
 
 
 
+
 void AcusarSuspeito(Suspeito *suspeitos, int numSuspeitos) {
     int opcaoSuspeito;
-    int evidenciasCorretas = 1;  
+    int evidenciasCorretas = 1;  // Aqui você pode ajustar a lógica de evidências se necessário.
 
     printf("\nEscolha o suspeito para acusar:\n");
     for (int i = 0; i < numSuspeitos; i++) {
@@ -330,18 +343,23 @@ void AcusarSuspeito(Suspeito *suspeitos, int numSuspeitos) {
         return;
     }
 
-
     Suspeito *suspeitoEscolhido = &suspeitos[opcaoSuspeito - 1];
 
-
     if (suspeitoEscolhido->culpado == 1 && evidenciasCorretas) {
+        // Código ANSI para cor verde (acertou)
+        printf("\033[0;32m");  // Define a cor para verde
         printf("\nParabéns! Você acusou corretamente %s.\n", suspeitoEscolhido->nome);
         printf("História resolvida: O irmão, enfurecido, atacou Hans Müller com um martelo e tentou encobrir o crime.\n");
         printf("Ele transferiu o dinheiro e tentou limpar as evidências na máquina de lavar.\n");
     } else {
+        // Código ANSI para cor vermelha (errou)
+        printf("\033[0;31m");  // Define a cor para vermelho
         printf("\nVocê acusou %s, mas esta não é a pessoa culpada.\n", suspeitoEscolhido->nome);
         printf("O verdadeiro culpado ainda está à solta.\n");
     }
+
+    // Reseta a cor para o padrão após a impressão
+    printf("\033[0m");
 }
 
 
