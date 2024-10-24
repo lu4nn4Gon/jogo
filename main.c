@@ -207,62 +207,110 @@ void LerDialogo(char *arquivo, int perguntaEscolhida) {
 }
 
 void InterrogarTestemunha(Testemunha *testemunhas, int numTestemunhas) {
-    int opcaoTestemunha, opcaoPergunta;
+    char nomeTestemunha[30];
 
-    printf("\nEscolha a testemunha para interrogar:\n");
-    for (int i = 0; i < numTestemunhas; i++) {
-        printf("%d - %s\n", i + 1, testemunhas[i].nome);
+    while (1) {
+        printf("\nDigite o nome da testemunha que deseja interrogar (esposa, filha, irmao) ou 'sair' para encerrar: ");
+        scanf("%s", nomeTestemunha);
+
+        if (strcmp(nomeTestemunha, "sair") == 0) {
+            printf("Saindo da interrogação...\n");
+            break;
+        }
+
+        int testemunhaEncontrada = -1;
+        for (int i = 0; i < numTestemunhas; i++) {
+            // Verificando se o nome fornecido é uma parte do nome completo da testemunha
+            if (strcmp(nomeTestemunha, "esposa") == 0 && strstr(testemunhas[i].nome, "Esposa") != NULL) {
+                testemunhaEncontrada = i;
+                break;
+            } else if (strcmp(nomeTestemunha, "filha") == 0 && strstr(testemunhas[i].nome, "Filha") != NULL) {
+                testemunhaEncontrada = i;
+                break;
+            } else if (strcmp(nomeTestemunha, "irmao") == 0 && strstr(testemunhas[i].nome, "Irmão") != NULL) {
+                testemunhaEncontrada = i;
+                break;
+            }
+        }
+
+        if (testemunhaEncontrada == -1) {
+            printf("Testemunha não encontrada. Tente novamente.\n");
+            continue;
+        }
+
+        Testemunha *testemunha = &testemunhas[testemunhaEncontrada];
+
+        printf("\nVocê escolheu: %s\n", testemunha->nome);
+
+        while (1) {
+            printf("Escolha uma pergunta para fazer:\n");
+            for (int i = 0; i < 3; i++) {
+                printf("%d - %s\n", i + 1, testemunha->perguntas[i]);  // Exibe as perguntas
+            }
+            printf("Digite o número da pergunta (1, 2 ou 3) ou '0' para encerrar: ");
+            
+            int opcaoPergunta;
+            scanf("%d", &opcaoPergunta);
+
+            if (opcaoPergunta == 0) {
+                printf("Encerrando interrogação desta testemunha...\n");
+                break;
+            }
+
+            if (opcaoPergunta < 1 || opcaoPergunta > 3) {
+                printf("Opção inválida! Escolha uma pergunta válida.\n");
+                continue;
+            }
+
+            LerDialogo(testemunha->arquivo, opcaoPergunta);
+        }
     }
-    printf("Escolha: ");
-    scanf("%d", &opcaoTestemunha);
-    getchar();  
-
-    if (opcaoTestemunha < 1 || opcaoTestemunha > numTestemunhas) {
-        printf("Opção inválida!\n");
-        return;
-    }
-
-    Testemunha *testemunha = &testemunhas[opcaoTestemunha - 1];
-    printf("\nVocê escolheu: %s\n", testemunha->nome);
-
-
-    printf("Escolha uma pergunta para fazer:\n");
-    for (int i = 0; i < 3; i++) {
-        printf("%d - %s\n", i + 1, testemunha->perguntas[i]);
-    }
-    printf("Escolha: ");
-    scanf("%d", &opcaoPergunta);
-    getchar();  
-
-    if (opcaoPergunta < 1 || opcaoPergunta > 3) {
-        printf("Opção inválida!\n");
-        return;
-    }
-
-    LerDialogo(testemunha->arquivo, opcaoPergunta);
 }
+
+
 
 void Evidencias(Evidencia *evidencias, int numEvidencias) {
-    int opcaoEvidencia;
+    char nomeEvidencia[50];
 
-    printf("\nEscolha a evidência para examinar:\n");
-    for (int i = 0; i < numEvidencias; i++) {
-        printf("%d - %s\n", i + 1, evidencias[i].nome);
+    while (1) {
+        printf("\nDigite o nome da evidência que deseja examinar (celular, faca, cigarro, camisa) ou 'sair' para encerrar: ");
+        scanf("%s", nomeEvidencia);
+
+        if (strcmp(nomeEvidencia, "sair") == 0) {
+            printf("Saindo da análise de evidências...\n");
+            break;
+        }
+
+        int evidenciaEncontrada = -1;
+        for (int i = 0; i < numEvidencias; i++) {
+            // Verificando se o nome da evidência corresponde exatamente
+            if (strcmp(nomeEvidencia, "celular") == 0 && strstr(evidencias[i].nome, "Celular") != NULL) {
+                evidenciaEncontrada = i;
+                break;
+            } else if (strcmp(nomeEvidencia, "faca") == 0 && strstr(evidencias[i].nome, "Faca") != NULL) {
+                evidenciaEncontrada = i;
+                break;
+            } else if (strcmp(nomeEvidencia, "cigarro") == 0 && strstr(evidencias[i].nome, "Cigarro") != NULL) {
+                evidenciaEncontrada = i;
+                break;
+            } else if (strcmp(nomeEvidencia, "camisa") == 0 && strstr(evidencias[i].nome, "Camisa") != NULL) {
+                evidenciaEncontrada = i;
+                break;
+            }
+        }
+
+        if (evidenciaEncontrada == -1) {
+            printf("Evidência não encontrada. Tente novamente.\n");
+            continue;
+        }
+
+        Evidencia *evidencia = &evidencias[evidenciaEncontrada];
+        printf("\nVocê escolheu: %s\n", evidencia->nome);
+        printf("Descrição: %s\n", evidencia->descricao);
     }
-
-    printf("Escolha: ");
-    scanf("%d", &opcaoEvidencia);
-    getchar();  // Limpa o buffer
-
-    if (opcaoEvidencia < 1 || opcaoEvidencia > numEvidencias) {
-        printf("Opção inválida!\n");
-        return;
-    }
-
-    Evidencia *evidencia = &evidencias[opcaoEvidencia - 1];
-    printf("\nVocê escolheu: %s\n", evidencia->nome);
-    printf("Descrição: %s\n", evidencia->descricao);
 }
+
+
 
 void AcusarSuspeito(Suspeito *suspeitos, int numSuspeitos) {
     int opcaoSuspeito;
@@ -369,7 +417,7 @@ int main(void) {
 
     if (strlen(nome) > 0) {
         printf("\nBem-vindo Detetive %s,", nome);
-        printf(" você um caso novo, deseja investigar? (S/N) ");
+        printf(" você possiu um caso novo, deseja investigar? (S/N) ");
         scanf("%c", &resposta);
         if (resposta == 'S' || resposta == 's'){
             int opcao = 1;
