@@ -1,13 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/stat.h>   
-#include <unistd.h>  
 
 typedef struct {
-    char nome[30];        
-    char perguntas[3][100]; 
-    char arquivo[30];    
+    char nome[30];
+    char perguntas[3][100];
+    char arquivo[30];
 } Testemunha;
 
 typedef struct {
@@ -17,30 +15,18 @@ typedef struct {
 
 typedef struct {
     char nome[50];
-    int culpado;  
+    int culpado;
 } Suspeito;
 
-// Função para criar a pasta "dialogos"
+// Função para criar a pasta "dialogos" - versão para Replit
 void CriarPastaDialogos() {
-    struct stat st = {0}; 
-
-    if (stat("dialogos", &st) == -1) {
-        mkdir("dialogos", 0700); 
-    }
+    system("mkdir -p dialogos"); // Comando que funciona no Replit para criar pastas
 }
 
-//função para salvar o caso em um arquivo bínario
-void SalvarCaso(char *nome,char *historia) {
-
-    FILE *arquivo = fopen(nome, "wb");
-    fwrite(historia, sizeof(char), strlen(historia), arquivo);
-    fclose(arquivo);
-
-}
-
+// Função para ler um arquivo binário com a história
 void LerCaso(char *nome) {
-    char historia[1000];  
-    int caracteres_lidos = 0;  
+    char historia[1000];
+    int caracteres_lidos = 0;
 
     FILE *arquivo = fopen(nome, "rb");
     if (arquivo == NULL) {
@@ -48,7 +34,7 @@ void LerCaso(char *nome) {
         return;
     }
 
-    caracteres_lidos = fread(historia, sizeof(char), 999, arquivo); 
+    caracteres_lidos = fread(historia, sizeof(char), 999, arquivo);
     historia[caracteres_lidos] = '\0';
 
     printf("\nCaso:\n%s\n", historia);
@@ -56,9 +42,9 @@ void LerCaso(char *nome) {
     fclose(arquivo);
 }
 
-//funcao para ler arquivos em txt
+// Função para ler arquivos txt
 void LerArquivo(char *nome) {
-    char linha[1000];  
+    char linha[1000];
 
     FILE *arquivo = fopen(nome, "r");
     if (arquivo == NULL) {
@@ -66,16 +52,14 @@ void LerArquivo(char *nome) {
         return;
     }
 
-  
-    printf("\033[0;31m");  
+    printf("\033[0;31m"); // Texto em vermelho
     while (fgets(linha, sizeof(linha), arquivo) != NULL) {
-        printf("%s", linha);  
+        printf("%s", linha);
     }
-    printf("\033[0m");    
+    printf("\033[0m"); // Resetar a cor
 
     fclose(arquivo);
 }
-
 
 void Pistas() {
     char comodo[20];
@@ -418,7 +402,6 @@ int main(void) {
                       "A busca por ele leva os convidados a uma cena de horror: Hans foi encontrado morto no chão do depósito,\n"
                       "com o whiskey derramado ao seu lado e a garrafa quebrada em mil pedaços.";
                       
-    SalvarCaso("historia.bin", historia);
 
     char nome[50];
     char resposta;
@@ -451,7 +434,7 @@ int main(void) {
 
                 switch (opcao) {
                     case 1:
-                        LerCaso("historia.bin");
+                        LerArquivo("historia.txt");
                         printf("\n");
                         break;
                     case 2:
