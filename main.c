@@ -333,8 +333,7 @@ void AcusarSuspeito(Suspeito *suspeitos, int numSuspeitos) {
         // Código ANSI para cor verde (acertou)
         printf("\033[0;32m");  
         printf("\nParabéns! Você acusou corretamente %s.\n", suspeitoEscolhido->nome);
-        printf("História resolvida: O irmão, enfurecido, atacou Hans Müller com um martelo e tentou encobrir o crime.\n");
-        printf("Ele transferiu o dinheiro e tentou limpar as evidências na máquina de lavar.\n");
+        printf("Erik Müller, irmão da vítima, perdeu todo o seu dinheiro em apostas dias antes do Natal. Desesperado, ele ligava para Hans, implorando por dinheiro, mas Hans se recusava a ajudar. No dia da festa, Erik, aproveitou o momento em que Hans foi buscar uma bebida no depósito e o atacou de surpresa com várias marteladas. Após o crime, ele descartou o martelo na máquina de lavar, fazendo com que uma camisa que já estava lá fosse manchada de sangue, e ligou a máquina para limpar as evidências. Em seguida, transferiu o dinheiro.\n");
     } else {
         // Código ANSI para cor vermelha (errou)
         printf("\033[0;31m");  
